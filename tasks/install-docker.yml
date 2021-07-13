@@ -39,7 +39,7 @@
 
 - name: Configure the docker daemon
   copy:
-    src: files/daemon.json
+    src: daemon.json
     dest: /etc/docker/daemon.json
     mode: 0644
   notify:
