@@ -12,3 +12,5 @@
     - include_tasks: reqs-k8s.yml
     - name: Install k8s
     - include_tasks: install-k8s.yml
+  when: ansible_facts['distribution'] == 'Ubuntu'
+  
