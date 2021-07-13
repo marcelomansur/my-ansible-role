@@ -1,0 +1,14 @@
+---
+# k8s configuration on Ubuntu
+- name: Ubuntu k8s configuration
+  block:
+    - name: Update distro
+    - include_tasks: update.yml
+    - name: Install docker
+    - include_tasks: docker.yml
+    - name: Disable swap
+    - include_tasks: swapoff.yml
+    - name: Prepare k8s requirements
+    - include_tasks: reqs-k8s.yml
+    - name: Install k8s
+    - include_tasks: install-k8s.yml

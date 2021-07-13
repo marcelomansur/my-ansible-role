@@ -1,0 +1,11 @@
+---
+- hosts: all
+  tasks:
+    - name: Install packages
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3600
+        name: "{{ item }}"
+      loop:
+        - python3
+      when: ansible_os_family == 'Debian'

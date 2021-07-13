@@ -1,0 +1,5 @@
+---
+# TODO: create idempotence
+- name: Turn off swap
+  command: swapoff -a
+  changed_when: False

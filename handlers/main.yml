@@ -1,0 +1,8 @@
+---
+# handlers file for my-ansible-role
+- name: Restart docker
+  systemd:
+    state: started
+    name: docker
+    enabled: yes
+    daemon-reload: yes

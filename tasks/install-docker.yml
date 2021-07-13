@@ -1,0 +1,46 @@
+---
+# Task docker.yml
+- name: Add Docker’s official GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Get ubuntu version
+  command: lsb_release -cs
+  register: ubuntu_version
+  changed_when: False
+
+- name: Add docker repository into sources list
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ubuntu_version.stdout }} stable"
+    state: present
+
+- name: Install docker engine
+  apt:
+    package: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+
+- name: Create docker user
+  user:
+    name: docker
+    state: present
+    group: docker
+
+- name: Create /etc/docker directory
+  file:
+    path: /etc/docker
+    state: directory
+    mode: '0644'
+
+- name: Configure the docker daemon
+  copy:
+    src: files/daemon.json
+    dest: /etc/docker/daemon.json
+    mode: 0644
+  notify:
+    - Restart docker

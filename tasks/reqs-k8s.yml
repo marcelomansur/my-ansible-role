@@ -1,0 +1,23 @@
+---
+- name: k8s requirements
+  block:
+    - name: Create directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0644
+      loop:
+        - /etc/modules-load.d/
+        - /etc/sysctl.d/
+
+    - name: Make sure that the br_netfilter module is loaded
+      copy:
+        src: files/modules_load_k8s.conf
+        dest: /etc/modules-load.d/k8s.conf
+        mode: 0644
+      
+    - name: Letting iptables see bridged traffic
+      copy:
+        src: files/sysctl_d_k8s.conf
+        dest: /etc/sysctl.d/k8s.conf
+        mode: 0644
